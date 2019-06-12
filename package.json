@@ -1,0 +1,64 @@
+{
+  "name": "@arqma/arqma-rpc",
+  "version": "0.1.8",
+  "description": "ArQmA RPC Daemon and RPC Wallet Javascript Library",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test/info.js",
+    "test-digest": "mocha ./test/httpDigest.js",
+    "test-rpcClientWithoutAuth": "mocha ./test/rpcClientWithoutAuth.js",
+    "test-rpcClientWithAuth": "mocha ./test/rpcClientWithAuth.js",
+    "test-rpcDaemon": "mocha -t 20000 ./test/rpcDaemon.js",
+    "test-rpcWalletAccount": "mocha -t 20000 ./test/rpcWalletAccount.js",
+    "test-rpcWalletHotCold": "mocha -t 300000 ./test/rpcWalletHotCold.js",
+    "test-rpcWalletCreation": "mocha -t 20000 ./test/rpcWalletCreation.js",
+    "test-rpcWalletMining": "mocha -t 20000 ./test/rpcWalletMining.js",
+    "test-rpcWalletMulti": "mocha -t 20000 ./test/rpcWalletMulti.js",
+    "test-rpcWalletMultiTransfer": "mocha -t 300000 ./test/rpcWalletMultiTransfer.js",
+    "test-rpcWalletProofs": "mocha -t 20000 ./test/rpcWalletProofs.js",
+    "test-rpcWalletRelay": "mocha -t 60000 ./test/rpcWalletRelay.js",
+    "test-rpcWalletRestore": "mocha -t 20000 ./test/rpcWalletRestore.js",
+    "test-rpcWalletSweepAll": "mocha -t 300000 ./test/rpcWalletSweepAll.js",
+    "test-rpcWalletSweepDust": "mocha -t 20000 ./test/rpcWalletSweepDust.js",
+    "test-rpcWalletSweepSingle": "mocha -t 20000 ./test/rpcWalletSweepSingle.js",
+    "test-rpcWalletTransactionKey": "mocha -t 300000 ./test/rpcWalletTransactionKey.js",
+    "test-rpcWalletTransfer": "mocha -t 60000 ./test/rpcWalletTransfer.js",
+    "test-rpcWalletTransferSplit": "mocha -t 60000 ./test/rpcWalletTransferSplit.js",
+    "test-rpcWalletValidateAddress": "mocha -t 20000 ./test/rpcWalletValidateAddress.js",
+    "test-rpcDaemonInputs": "mocha ./test/rpcDaemonInputs.js",
+    "test-rpcWalletInputs": "mocha ./test/rpcWalletInputs.js",
+    "generate-docs": "jsdoc ./lib/rpcWallet.js ./lib/rpcDaemon.js -c ./jsdoc.json -d docs --verbose"
+  },
+  "author": "SmajeNz0",
+  "license": "MIT",
+  "dependencies": {
+    "p-queue": "^4.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "esdoc-standard-plugin": "^1.0.0",
+    "jsdoc": "^3.6.2",
+    "jsdoc-chameleon-template": "^1.0.2",
+    "mocha": "^6.1.4"
+  },
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arqma/arqma-rpc-js.git"
+  },
+  "keywords": [
+    "arqma",
+    "rpc",
+    "wallet",
+    "daemon"
+  ],
+  "bugs": {
+    "url": "https://github.com/arqma/arqma-rpc-js/issues"
+  },
+  "homepage": "https://github.com/arqma/arqma-rpc-js#readme"
+}
