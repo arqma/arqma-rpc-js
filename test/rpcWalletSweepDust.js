@@ -30,7 +30,7 @@ let trn = {
   key_image: config.keyImageToSweep
 }
 
-describe('RPCWallet wallet sweep single', function () {
+describe('RPCWallet wallet sweep dust', function () {
   before(async function () {
     try {
       await rpcWallet.socketConnect()

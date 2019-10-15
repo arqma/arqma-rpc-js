@@ -48,7 +48,7 @@ describe('RPCWallet wallet sweep all', function () {
       await rpcWallet.refresh()
       console.log('Sweeping All in wallet B ...')
       trn.address = config.stagenetWalletAddressB
-      resA = await rpcWallet.sweepAll(trn)
+      resB = await rpcWallet.sweepAll(trn)
       console.log('Closing wallet B')
       await rpcWallet.closeWallet()
     } catch (e) {

@@ -24,7 +24,7 @@ let txHash = ''
 let getTxKey = ''
 let inPool = ''
 
-describe('RPCWallet wallet proof functions', function () {
+describe('RPCWallet wallet check tx key functions', function () {
   before(async function () {
     try {
       await rpcWallet.socketConnect()
@@ -80,15 +80,15 @@ describe('RPCWallet wallet proof functions', function () {
     return expect(rpcWallet.openWallet({ filename: 'tx_key' }))
       .to.eventually.be.an('object').that.is.empty
   })
-  it('checkTxKey', () => {
+  it('getTxKey', () => {
     return expect(rpcWallet.getTxKey({ txid: txHash }))
       .to.eventually.have.property('tx_key', getTxKey)
   })
   it('rescanBlockchain', () => {
-    return expect(rpcWallet.rescanBlockchain())
+    return expect(rpcWallet.rescanBlockchain({ hard: true }))
       .to.eventually.be.an('object').that.is.empty
   })
-  it('checkTxKey should be rejected', () => {
+  it('getTxKey should be rejected', () => {
     return expect(rpcWallet.getTxKey({ txid: txHash }))
       .to.eventually.be.rejected
   })

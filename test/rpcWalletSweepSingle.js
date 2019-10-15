@@ -24,8 +24,8 @@ let resA = ''
 let trn = {
   address: config.stagenetWalletAddressA,
   account_index: 0,
-  mixin: 31,
-  ring_size: 32,
+  mixin: 11,
+  ring_size: 12,
   unlock_time: 0,
   key_image: config.keyImageToSweep
 }

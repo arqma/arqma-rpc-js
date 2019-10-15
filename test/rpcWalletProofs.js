@@ -37,7 +37,7 @@ describe('RPCWallet wallet proof functions', function () {
       console.log('Getting spend proof ...')
       res = await rpcWallet.getSpendProof({ txid: config.txOutIdB, message: 'gold' })
       signature2 = res.signature
-      res = await rpcWallet.getReserveProof({ all: false, account_index: 0, amount: 6000000000, message: 'gold' })
+      res = await rpcWallet.getReserveProof({ all: false, account_index: 0, amount: 600000000, message: 'gold' })
       signature3 = res.signature
     } catch (e) {
       console.log('Error in before', e)

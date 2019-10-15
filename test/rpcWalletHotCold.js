@@ -46,7 +46,7 @@ describe('RPCWallet uses hot and cold wallet', function () {
       await rpcWallet.refresh()
       res = await rpcWallet.getBalance({ account_index: 0 })
       spendBalance = res.balance
-      console.log('Spend wallet balance balance is: ', (Number(res.balance) * 0.000000001))
+      console.log('Spend wallet balance is: ', (Number(res.balance) * 0.000000001))
       console.log('Importing outputs ...')
       await rpcWallet.importOutputs({ outputs_data_hex: this.outputsDataHex })
       console.log('Exporting signed key images ...')
