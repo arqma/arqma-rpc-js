@@ -166,10 +166,10 @@ describe('RPCDaemon tests functions', function () {
   })
   it('otherGetTransactions should return whole transaction', () => {
     let opts = {
-      txs_hashes: [config.txids[0]]
+      txs_hashes: [config.txids[1]]
     }
     return expect(rpcDaemon.otherGetTransactions(opts))
-      .to.eventually.have.nested.property('txs[0].block_height', 7924)
+      .to.eventually.have.nested.property('txs[0].block_height', 5099)
   })
   it('otherGetAltBlocksHashes should return OK', () => {
     return expect(rpcDaemon.otherGetAltBlocksHashes())

@@ -37,7 +37,7 @@ describe('RPCWallet uses hot and cold wallet', function () {
       let res = await rpcWallet.exportOutputs()
       this.outputsDataHex = res.outputs_data_hex
       res = await rpcWallet.getBalance({ account_index: 0 })
-      console.log('Unsigned view wallet balance is: ', (Number(res.balance) * 0.000000001))
+      console.log('Unsigned view wallet balance is: ', (Number(res.unlocked_balance) * 0.000000001))
       console.log('Closing view wallet ...')
       await rpcWallet.closeWallet()
       console.log('Restoring spend wallet from keys ...')
@@ -45,8 +45,8 @@ describe('RPCWallet uses hot and cold wallet', function () {
       console.log('Refreshing spend wallet ...')
       await rpcWallet.refresh()
       res = await rpcWallet.getBalance({ account_index: 0 })
-      spendBalance = res.balance
-      console.log('Spend wallet balance balance is: ', (Number(res.balance) * 0.000000001))
+      spendBalance = res.unlocked_balance
+      console.log('Spend wallet balance is: ', (Number(res.unlocked_balance) * 0.000000001))
       console.log('Importing outputs ...')
       await rpcWallet.importOutputs({ outputs_data_hex: this.outputsDataHex })
       console.log('Exporting signed key images ...')
@@ -62,8 +62,8 @@ describe('RPCWallet uses hot and cold wallet', function () {
       await rpcWallet.importKeyImages({ signed_key_images: this.signed_key_images })
       await rpcWallet.refresh()
       res = await rpcWallet.getBalance({ account_index: 0 })
-      viewBalance = res.balance
-      console.log('Signed view wallet balance is: ', (Number(res.balance) * 0.000000001))
+      viewBalance = res.unlocked_balance
+      console.log('Signed view wallet balance is: ', (Number(res.unlocked_balance) * 0.000000001))
       let trn = {
         destinations: [{ amount: 1000000000, address: config.stagenetWalletAddressB }],
         priority: 2,

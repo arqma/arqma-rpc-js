@@ -64,16 +64,15 @@ describe('RPCWallet transfer multisig wallet', function () {
       res = await rpcWallet.importMultisigInfo({ info: [infoAlice] })
       console.log('Storing wallet ...')
       await rpcWallet.store()
-      console.log('Closing wallet ...')
       await rpcWallet.closeWallet()
       await rpcWallet.openWallet({ filename: 'alice-multisig-wallet', password: 'alice-bob-multisig' })
       console.log('Refreshing Alice wallet ...')
       await rpcWallet.refresh()
       let trn = {
-        destinations: [{ amount: 1000000000, address: config.stagenetWalletAddressA }],
+        destinations: [{ amount: 100000000, address: config.stagenetWalletAddressA }],
         priority: 2,
-        mixin: 21,
-        ring_size: 22,
+        mixin: 10,
+        ring_size: 11,
         unlock_time: 0,
         payment_id: config.payment_id
       }
