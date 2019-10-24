@@ -9,28 +9,27 @@ const expect = chai.expect
 const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 
-const RPCWallet = require('../lib/rpcWallet.js')
+const rpcWallet = require('../../lib/rpcWallet.js')
 
-let config = require('./config.json')
-
-let rpcWallet = new RPCWallet({
-  url: config.rpcWalletWithAuth,
-  username: config.rpcWalletUsername,
-  password: config.rpcWalletPassword
-})
-
-let txMetadata = ''
-let txHash = ''
+const config = require('./config')
 
 describe('RPCWallet wallet relay transaction', function () {
+  const walletClient = rpcWallet.createWalletClient({
+    url: config.walletAddress,
+    username: config.walletUsername,
+    password: config.walletPassword
+  })
+  walletClient.sslRejectUnauthorized(false)
+
+  let txMetadata = ''
+  let txHash = ''
+
   before(async function () {
     try {
-      await rpcWallet.socketConnect()
-      console.log('Restoring wallet ...')
-      await rpcWallet.restoreDeterministicWallet({ restore_height: config.restore_height, filename: 'relay', seed: config.stagenetSeedA })
+      await walletClient.restoreDeterministicWallet({ restore_height: config.restore_height, filename: 'relay', seed: config.stagenetSeedA })
       console.log('Refreshing wallet ...')
-      await rpcWallet.refresh()
-      let trn = {
+      await walletClient.refresh()
+      const trn = {
         destinations: [{ amount: 2000000000, address: config.stagenetWalletAddressB }],
         priority: 2,
         mixin: 21,
@@ -41,7 +40,7 @@ describe('RPCWallet wallet relay transaction', function () {
         get_tx_metadata: true
       }
       console.log('Preparing transfer ...')
-      let res = await rpcWallet.transfer(trn)
+      const res = await walletClient.transfer(trn)
       txMetadata = res.tx_metadata
       txHash = res.tx_hash
     } catch (e) {
@@ -50,17 +49,14 @@ describe('RPCWallet wallet relay transaction', function () {
   })
   after(async function () {
     try {
-      await rpcWallet.closeWallet()
-      await rpcWallet.socketEnd()
-      await rpcWallet.socketDestroy()
+      console.log('Closing wallet ...')
+      await walletClient.closeWallet()
     } catch (e) {
       console.log('Error in after', e)
-      await rpcWallet.socketEnd()
-      await rpcWallet.socketDestroy()
     }
   })
   it('relayTx', () => {
-    return expect(rpcWallet.relayTx({ hex: txMetadata }))
+    return expect(walletClient.relayTx({ hex: txMetadata }))
       .to.eventually.have.property('tx_hash', txHash)
   })
 })

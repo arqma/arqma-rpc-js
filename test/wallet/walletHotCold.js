@@ -3,68 +3,67 @@
 const describe = require('mocha').describe
 const it = require('mocha').it
 const before = require('mocha').before
-const after = require('mocha').after
 const chai = require('chai')
 const expect = chai.expect
 const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 
-const RPCWallet = require('../lib/rpcWallet.js')
+const rpcWallet = require('../../lib/rpcWallet.js')
 
-let config = require('./config.json')
-
-let rpcWallet = new RPCWallet({
-  url: config.rpcWalletWithAuth,
-  username: config.rpcWalletUsername,
-  password: config.rpcWalletPassword
-})
-
-let spendBalance = -1
-let viewBalance = -1
-let unsignedTx = ''
-let signedTxSet = ''
-let txHashList = ''
+const config = require('./config')
 
 describe('RPCWallet uses hot and cold wallet', function () {
+  const walletClient = rpcWallet.createWalletClient({
+    url: config.walletAddress,
+    username: config.walletUsername,
+    password: config.walletPassword
+  })
+  walletClient.sslRejectUnauthorized(false)
+
+  let spendBalance = -1
+  let viewBalance = -1
+  let unsignedTx = ''
+  let signedTxSet = ''
+  let txHashList = ''
+
   before(async function () {
     try {
-      await rpcWallet.socketConnect()
       console.log('Restoring view wallet from keys ...')
-      await rpcWallet.generateFromKeys({ address: config.stagenetWalletAddressA, filename: 'view_wallet', viewkey: config.stagenetWalletViewKeyA })
+      await walletClient.generateFromKeys({ address: config.stagenetWalletAddressA, filename: 'view_wallet', viewkey: config.stagenetWalletViewKeyA })
       console.log('Refreshing view wallet ...')
-      await rpcWallet.refresh()
+      await walletClient.refresh()
       console.log('Exporting outputs ...')
-      let res = await rpcWallet.exportOutputs()
+      let res = await walletClient.exportOutputs()
       this.outputsDataHex = res.outputs_data_hex
-      res = await rpcWallet.getBalance({ account_index: 0 })
+      res = await walletClient.getBalance({ account_index: 0 })
       console.log('Unsigned view wallet balance is: ', (Number(res.unlocked_balance) * 0.000000001))
       console.log('Closing view wallet ...')
-      await rpcWallet.closeWallet()
+      await walletClient.closeWallet()
       console.log('Restoring spend wallet from keys ...')
-      await rpcWallet.generateFromKeys({ address: config.stagenetWalletAddressA, filename: 'spend_wallet', viewkey: config.stagenetWalletViewKeyA, spendkey: config.stagenetWalletSpendKeyA })
+      await walletClient.generateFromKeys({ address: config.stagenetWalletAddressA, filename: 'spend_wallet', viewkey: config.stagenetWalletViewKeyA, spendkey: config.stagenetWalletSpendKeyA })
       console.log('Refreshing spend wallet ...')
-      await rpcWallet.refresh()
-      res = await rpcWallet.getBalance({ account_index: 0 })
+      await walletClient.refresh()
+      res = await walletClient.getBalance({ account_index: 0 })
       spendBalance = res.unlocked_balance
       console.log('Spend wallet balance is: ', (Number(res.unlocked_balance) * 0.000000001))
       console.log('Importing outputs ...')
-      await rpcWallet.importOutputs({ outputs_data_hex: this.outputsDataHex })
+      await walletClient.importOutputs({ outputs_data_hex: this.outputsDataHex })
       console.log('Exporting signed key images ...')
-      res = await rpcWallet.exportKeyImages()
+      res = await walletClient.exportKeyImages()
       this.signed_key_images = res.signed_key_images
       console.log('Closing spend wallet ...')
-      await rpcWallet.closeWallet()
+      await walletClient.closeWallet()
       console.log('Opening view wallet ...')
-      await rpcWallet.openWallet({ filename: 'view_wallet' })
+      await walletClient.openWallet({ filename: 'view_wallet' })
       console.log('Setting daemon as trusted ...')
-      await rpcWallet.setDaemon({ address: config.daemonWithoutAuth, trusted: true }) // Don't use trusted with remote daemon on production!
+      await walletClient.setDaemon({ address: config.daemonAddress, trusted: true }) // Don't use trusted with remote daemon on production!
       console.log('Importing signed key images ...')
-      await rpcWallet.importKeyImages({ signed_key_images: this.signed_key_images })
-      await rpcWallet.refresh()
-      res = await rpcWallet.getBalance({ account_index: 0 })
+      await walletClient.importKeyImages({ signed_key_images: this.signed_key_images })
+      await walletClient.refresh()
+      res = await walletClient.getBalance({ account_index: 0 })
       viewBalance = res.unlocked_balance
       console.log('Signed view wallet balance is: ', (Number(res.unlocked_balance) * 0.000000001))
-      let trn = {
+      const trn = {
         destinations: [{ amount: 1000000000, address: config.stagenetWalletAddressB }],
         priority: 2,
         mixin: 20,
@@ -73,35 +72,25 @@ describe('RPCWallet uses hot and cold wallet', function () {
         payment_id: config.payment_id
       }
       console.log('Preparing transfer  ...')
-      res = await rpcWallet.transfer(trn)
+      res = await walletClient.transfer(trn)
       unsignedTx = res.unsigned_txset
       console.log('Closing view wallet ...')
-      await rpcWallet.closeWallet()
+      await walletClient.closeWallet()
       console.log('Opening spend wallet ...')
-      await rpcWallet.openWallet({ filename: 'spend_wallet' })
-      res = await rpcWallet.signTransfer({ unsigned_txset: unsignedTx })
+      await walletClient.openWallet({ filename: 'spend_wallet' })
+      res = await walletClient.signTransfer({ unsigned_txset: unsignedTx, export_raw: true })
       signedTxSet = res.signed_txset
       console.log('Closing spend wallet ...')
-      await rpcWallet.closeWallet()
+      await walletClient.closeWallet()
       console.log('Opening view wallet ...')
-      await rpcWallet.openWallet({ filename: 'view_wallet' })
+      await walletClient.openWallet({ filename: 'view_wallet' })
       console.log('Submitting transfer ...')
-      res = await rpcWallet.submitTransfer({ tx_data_hex: signedTxSet })
+      res = await walletClient.submitTransfer({ tx_data_hex: signedTxSet })
       txHashList = res
       console.log('Closing view wallet ...')
-      await rpcWallet.closeWallet()
+      await walletClient.closeWallet()
     } catch (e) {
       console.log('Error in before', e)
-    }
-  })
-  after(async function () {
-    try {
-      await rpcWallet.socketEnd()
-      await rpcWallet.socketDestroy()
-    } catch (e) {
-      console.log('Error in after', e)
-      await rpcWallet.socketEnd()
-      await rpcWallet.socketDestroy()
     }
   })
   it('Check if balances between view and spend match', function () {
