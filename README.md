@@ -19,7 +19,7 @@ Once initialized simply use the query functions.
 
 
 ## RPCDaemon without Digest Authentication
-Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/RPCDaemon.html) and look at the unit tests.
+Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/module-RPCDaemon.html) and look at the unit tests.
 ```javascript
 const rpcDaemon = require('@arqma/arqma-rpc').RPCDaemon
 
@@ -32,7 +32,7 @@ daemonClient.sslRejectUnauthorized(false)
 
 
 ## RPCDaemon with Digest Authentication
-Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/RPCDaemon.html) and look at the unit tests.
+Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/module-RPCDaemon.html) and look at the unit tests.
 ```javascript
 const rpcDaemon = require('@arqma/arqma-rpc').RPCDaemon
 
@@ -47,7 +47,7 @@ daemonClient.sslRejectUnauthorized(false)
 
 
 ## RPCWallet without Digest Authentication
-Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/RPCWallet.html) and look at the unit tests.
+Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/module-RPCWallet.html) and look at the unit tests.
 ```javascript
 const rpcWallet = require('@arqma/arqma-rpc').RPCWallet
 
@@ -60,7 +60,7 @@ walletClient.sslRejectUnauthorized(false)
 
 
 ## RPCWallet with Digest Authentication
-Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/RPCWallet.html) and look at the unit tests.
+Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/module-RPCWallet.html) and look at the unit tests.
 ```javascript
   const rpcWallet = require('@arqma/arqma-rpc').RPCWallet
 
