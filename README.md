@@ -3,28 +3,74 @@
 [![NPM](https://nodei.co/npm/@arqma/arqma-rpc.png)](https://nodei.co/npm/@arqma/arqma-rpc/)
 
 Javascript library to interact with RPC Daemon and RPC Wallet.\
-All requests are queued and use promises.\
+All requests are queued. Most functions are async.
+
+Since version 0.2.0 the RPCDaemon and RPCWallet objects are created using a factory function instead of declaring the object with "new".
+
+There is no need to connect and disconnect the underlying socket anymore.
+
 The library supports HTTP, HTTPS and digest authentication.
 
-## RPCDaemon
-Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/RPCDaemon.html) and look at the unit tests.\
-Init without authentication:
-```
-let rpcDaemon = new RPCDaemon({
-  url: 127.0.0.1:39994
+The library use an axios interceptor to implement digest authentication.
+
+Digest authentication is activated as soon as a username and a password is supplied during object creation.
+
+Once initialized simply use the query functions.
+
+
+## RPCDaemon without Digest Authentication
+Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/RPCDaemon.html) and look at the unit tests.
+```javascript
+const rpcDaemon = require('@arqma/arqma-rpc').RPCDaemon
+
+const daemonClient = rpcDaemon.createDaemonClient({
+  url: 'http://127.0.0.1:39994'
 })
+// When using a self signed certificate with HTTPS you need to set the function sslRejectUnauthorized to false.
+daemonClient.sslRejectUnauthorized(false)
 ```
 
-## RPCWallet
-Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/RPCWallet.html) and look at the unit tests.\
-Init with authentication:
+
+## RPCDaemon with Digest Authentication
+Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/RPCDaemon.html) and look at the unit tests.
+```javascript
+const rpcDaemon = require('@arqma/arqma-rpc').RPCDaemon
+
+const daemonClient = rpcDaemon.createDaemonClient({
+  url: 'http://127.0.0.1:39994',
+  username: 'user',
+  password: 'pass'
+})
+// When using a self signed certificate with HTTPS you need to set the function sslRejectUnauthorized to false.
+daemonClient.sslRejectUnauthorized(false)
 ```
-let rpcWallet = new RPCWallet({
+
+
+## RPCWallet without Digest Authentication
+Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/RPCWallet.html) and look at the unit tests.
+```javascript
+const rpcWallet = require('@arqma/arqma-rpc').RPCWallet
+
+const walletClient = rpcWallet.createWalletClient({
+  url: 'http://127.0.0.1:20000'
+})
+// When using a self signed certificate with HTTPS you need to set the function sslRejectUnauthorized to false.
+walletClient.sslRejectUnauthorized(false)
+```
+
+
+## RPCWallet with Digest Authentication
+Please refer to the [documentation](https://arqma.github.io/arqma-rpc-js/RPCWallet.html) and look at the unit tests.
+```javascript
+  const rpcWallet = require('@arqma/arqma-rpc').RPCWallet
+
+  const walletClient = rpcWallet.createWalletClient({
   url: 'http://127.0.0.1:20000',
   username: 'user',
   password: 'pass'
 })
-
+// When using a self signed certificate with HTTPS you need to set the function sslRejectUnauthorized to false.
+walletClient.sslRejectUnauthorized(false)
 ```
 
 ## Generate JSDoc documentation

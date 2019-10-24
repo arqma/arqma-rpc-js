@@ -1,4 +1,4 @@
 'use strict'
 
-module.exports.RPCDaemon = require('./lib/rpcDaemon.js')
-module.exports.RPCWallet = require('./lib/rpcWallet.js')
+exports = module.exports.RPCDaemon = require('./lib/rpcDaemon')
+exports = module.exports.RPCWallet = require('./lib/rpcWallet')
