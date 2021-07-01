@@ -57,4 +57,22 @@ describe('RPCWallet wallet transfer split', function () {
     return expect(walletClient.transfer(trn))
       .to.eventually.have.property('amount', 150000000)
   })
+  it('transfer validate mandatory fields', () => {
+    const mandatory_Checks = {
+      destinations: [{ amount: 100000000, address: config.stagenetWalletAddressA }, { amount: 50000000, address: config.stagenetWalletAddressB }],
+      account_index: 0,
+      subaddr_indices: [0],
+      priority: 2,
+      mixin: 11,
+      ring_size: 12,
+      unlock_time: 0,
+      payment_id: config.payment_id,
+      get_tx_keys: true,
+      do_not_relay: false,
+      get_tx_hex: false,
+      new_algorithm: true,
+      get_tx_metadata: false
+    }
+    return expect(walletClient.transfer(mandatory_Checks)).toThrow(new Error(""))
+  })
 })
