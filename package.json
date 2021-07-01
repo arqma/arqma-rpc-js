@@ -1,6 +1,6 @@
 {
   "name": "@arqma/arqma-rpc",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "ArQmA RPC Daemon and RPC Wallet Javascript Library",
   "main": "index.js",
   "directories": {
