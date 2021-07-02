@@ -31,4 +31,6 @@ console.log(BgBlack + FgGreen + 'test-wallet-transaction-key' + FgWhite + BgBlac
 console.log(BgBlack + FgGreen + 'test-wallet-transfer' + FgWhite + BgBlack + ' to test ' + FgYellow + 'RPCWallet transfer functions' + Reset)
 console.log(BgBlack + FgGreen + 'test-wallet-transfer-split' + FgWhite + BgBlack + ' to test ' + FgYellow + 'RPCWallet transfer split functions' + Reset)
 console.log(BgBlack + FgGreen + 'test-wallet-validate-address' + FgWhite + BgBlack + ' to test ' + FgYellow + 'RPCWallet validate address functions' + Reset)
+console.log(BgBlack + FgGreen + 'test-helper-checkmandatory-parameters' + FgWhite + BgBlack + ' to test ' + FgYellow + 'RPCHelpers validate mandatory parameters' + Reset)
+console.log(BgBlack + FgGreen + 'test-helper-checkoptional-parameters' + FgWhite + BgBlack + ' to test ' + FgYellow + 'RPCHelpers validate optional parameters' + Reset)
 console.log(BgBlack + FgGreen + 'generate-docs' + FgWhite + BgBlack + ' to generate ' + FgYellow + 'the docs' + Reset)

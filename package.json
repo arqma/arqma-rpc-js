@@ -1,6 +1,6 @@
 {
   "name": "@arqma/arqma-rpc",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "ArQmA RPC Daemon and RPC Wallet Javascript Library",
   "main": "index.js",
   "directories": {
@@ -39,6 +39,8 @@
     "test-wallet-transfer": "mocha -t 60000 ./test/wallet/walletTransfer.js",
     "test-wallet-transfer-split": "mocha -t 60000 ./test/wallet/walletTransferSplit.js",
     "test-wallet-validate-address": "mocha -t 60000 ./test/wallet/walletValidateAddress.js",
+    "test-helper-checkmandatory-parameters": "mocha -t 6000 ./test/helper/checkMandatoryParameters.js",
+    "test-helper-checkoptional-parameters": "mocha -t 6000 ./test/helper/checkOptionalParameterType.js",
     "generate-docs": "jsdoc ./lib/rpcWallet.js ./lib/rpcDaemon.js --readme ./README.md -c ./jsdoc.json -d docs --verbose"
   },
   "author": "SmajeNz0",
